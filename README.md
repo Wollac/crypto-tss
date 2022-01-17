@@ -99,7 +99,7 @@ Examples for share generation and signing using [Kyber](https://github.com/dedis
 - During setup run any DKG (preferably probably FROST-DKG) to derive the shared public key. This leads to a synchronous, non-robust setup phase.
 - As part of the signing process, for every party:
   - Sample secret s = a₀
-  - C = (A₀,A₁,…,Aₜ),(y₁,y₂,…,yₙ) ← FeldmanShare(s)
+  - C = (A₀,A₁,…,Aₜ),(y₁,y₂,…,yₙ) ← <span style="font-variant:small-caps;">VSS</span>(s)
   - Broadcast C and send yᵢ to party i
   - Receive and FeldmanVerify deals with Δ-timeout
   - Exclude invalid deals or missing deals from key share computation
