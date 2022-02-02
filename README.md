@@ -3,6 +3,7 @@
 ## Repository
 
 - [demo](https://github.com/iotaledger/crypto-tss/tree/main/demo): Golang demos and PoCs
+- [talks](https://github.com/iotaledger/crypto-tss/tree/main/talks): Internal talks and presentations
 
 ## Background
 
