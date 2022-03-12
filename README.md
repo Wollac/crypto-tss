@@ -15,7 +15,7 @@ In general, there are two key alternatives:
 
 ### Frost
 
-For the first option there is a vetted 3-round (less with precomputation) scheme with security proofs: Frost [[KG20](https://crysp.uwaterloo.ca/software/frost/frost-extabs.pdf)], [Coinbase blog post](https://blog.coinbase.com/frost-flexible-round-optimized-schnorr-threshold-signatures-b2e950164ee1)  (Rust:[dalek](https://github.com/isislovecruft/frost-dalek), Go:[Coinbase](https://github.com/coinbase/kryptology), [Taurus](https://github.com/taurusgroup/frost-ed25519)).
+For the first option there is a vetted 3-round (less with precomputation) scheme with security proofs: Frost [[KG20](https://eprint.iacr.org/2020/852)], [Coinbase blog post](https://blog.coinbase.com/frost-flexible-round-optimized-schnorr-threshold-signatures-b2e950164ee1)  (Rust:[dalek](https://github.com/isislovecruft/frost-dalek), Go:[Coinbase](https://github.com/coinbase/kryptology), [Taurus](https://github.com/taurusgroup/frost-ed25519)).
 In order to remove the dependency on a second DKG, the subset of signers needs to be fixed before signing. This makes it very well suited for "human threshold schemes" where usually the actual signers come together anyways, but less for automated signing where signers could go offline. There exists a trivial algorithm to cope with this, but it requires 𝓞(f) rounds, where f is the number of malicious parties.
 
 #### Pros
