@@ -143,6 +143,22 @@ Examples for share generation and signing using [Kyber](https://github.com/dedis
 
 The used VSS could be Feldman VSS first and then extended to (any) PVSS.
 
+###### b) Variant
+
+Using Verified Asynchronous Common Subset:
+
+- For every party:
+  - Sample secret s = a₀
+  - Run ACSS(s):
+    - C=(A₀,A₁,…,Aₜ), e=(Enc<sub>pk₀</sub>(y₀),…,Enc<sub>pkₙ</sub>(yₙ)) ← <span style="font-variant:small-caps;">VSSEncAndProve</span>(s)
+    - Broadcast (C,e) using Verified Reliable Broadcast (RBC) with predicate: C is valid
+  - upon termination of the j-th ACSS:
+    -  T ← T ∪ {j}
+    -  If |T| = n - f: mark nonce generation as ready
+- As part of the signing process (after nonce generation is ready), for every party:
+  - Include T (bit vector) into Verified ACS with predicated |T| ≥ n - f
+  - Select all the dealers that are contained in at least f + 1 elements of the output and use them for the key share computation. One can show, that there will always be n - f such dealers present int the ACS output 
+
 ###### Pros
 
 - Trustless, stateless and asynchronous
