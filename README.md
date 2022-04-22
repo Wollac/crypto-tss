@@ -125,39 +125,55 @@ Examples for share generation and signing using [Kyber](https://github.com/dedis
 
 ##### 4) Asynchronous nonce-DKG
 
+###### Variant a)
+
+- Setup
+  - Run any DKG (preferably probably FROST-DKG) to derive the aggregated public key and private key share. This leads to a synchronous, non-robust setup phase.
+- Nonce sharing (can be started any time before the signing process)
+  - For every party i:
+    - Sample secret s = a₀
+    - Run ACSSᵢ(s):
+      - C=(A₀,A₁,…,Aₜ), e=(Enc<sub>pk₀</sub>(y₀),…,Enc<sub>pkₙ</sub>(yₙ)) ← <span style="font-variant:small-caps;">VSSEncAndProve</span>(s)
+      - Broadcast (C,e) using Verified Reliable Broadcast (RBC) with predicate: C is valid
+    - On termination of ACSSⱼ:
+      - sʲᵢ ← output
+      - Tᵢ ← Tᵢ ∪ {j}
+    - Wait until |Tᵢ| ≥ n - f 
+- Signing process
+  - For every party i:
+    - Input Tᵢ (bit vector) into Verified ACS with predicate: |Tᵢ| ≥ n - f
+    - On termination of ACS:
+      - 𝒯 ← {j | the j-th bit is set in at least f+1 elements of the output}<br> (One can show that |𝒯| ≥ f + 1 will always hold. Thus, one honest dealer will always be included.)
+      - Wait until 𝒯 ⊆ Tᵢ<br> (as for each j in 𝒯 at least one honest peer observed a termination of ACSSⱼ, this will eventually succeed.) 
+      - σᵢ ← sum(sʲᵢ for j in 𝒯)
+    - Create partial signature using the private key share and σᵢ as the nonce share
+  - Aggregate t partial signatures to form the valid signature
+
+###### Variant b)
+
 - During setup run any DKG (preferably probably FROST-DKG) to derive the shared public key. This leads to a synchronous, non-robust setup phase.
-- For every party:
-  - Sample secret s = a₀
-  - Run ACSS(s):
-    - C=(A₀,A₁,…,Aₜ), e=(Enc<sub>pk₀</sub>(y₀),…,Enc<sub>pkₙ</sub>(yₙ)) ← <span style="font-variant:small-caps;">VSSEncAndProve</span>(s)
-    - Broadcast (C,e) using Verified Reliable Broadcast (RBC) with predicate: C is valid
-  - upon termination of the j-th ACSS:
-    -  T ← T ∪ {j}
-    -  If |T| = f + 1: RBC(T)
-  - participate in the j-th RPC only when Tⱼ ⊆ T
-- As part of the signing process, for every party:
-  - Include T (bit vector) into Asynchronous Common Subset (ACS) input
-  - Select all the dealers that are contained in at least f + 1 elements of the output and use them for the key share computation
-  - Create partial signatures using the key share
+- Nonce DKG (run before each signing)
+  - For every party _i_:
+    - Sample secret s = a₀
+    - Run ACSSᵢ(s):
+      - C=(A₀,A₁,…,Aₜ), e=(Enc<sub>pk₀</sub>(y₀),…,Enc<sub>pkₙ</sub>(yₙ)) ← <span style="font-variant:small-caps;">VSSEncAndProve</span>(s)
+      - Broadcast (C,e) using Verified Reliable Broadcast (RBC) with predicate: C is valid
+    - On termination of ACSSⱼ:
+      - sʲᵢ ← output
+      - Tᵢ ← Tᵢ ∪ {j}
+      - If |Tᵢ| = f+1: RBCᵢ(Tᵢ)
+    - Only participate in RPCⱼ when Tⱼ ⊆ Tᵢ
+    - On termination of RPCⱼ:
+      - 𝒯ᵢ ← 𝒯ᵢ ∪ {j}
+- Signing process
+  - For every party _i_:
+    - Include 𝒯ᵢ (bit vector) into Asynchronous Common Subset (ACS) input
+    - On termination of ACS:
+      - ℐ ← \{j | j-th bit is set in at least f+1 elements of the output\}<br> ℐ could be empty, in that case the signing needs to be restarted.
+      - 𝒯 ← union(Tⱼ for j in ℐ)
+      - σᵢ ← sum(sʲᵢ for j in 𝒯)
+    - Create partial signatures using the key share and σᵢ as the nonce share
 - Aggregate t signatures
-
-The used VSS could be Feldman VSS first and then extended to (any) PVSS.
-
-###### b) Variant
-
-Using Verified Asynchronous Common Subset:
-
-- For every party:
-  - Sample secret s = a₀
-  - Run ACSS(s):
-    - C=(A₀,A₁,…,Aₜ), e=(Enc<sub>pk₀</sub>(y₀),…,Enc<sub>pkₙ</sub>(yₙ)) ← <span style="font-variant:small-caps;">VSSEncAndProve</span>(s)
-    - Broadcast (C,e) using Verified Reliable Broadcast (RBC) with predicate: C is valid
-  - upon termination of the j-th ACSS:
-    -  T ← T ∪ {j}
-    -  If |T| = n - f: mark nonce generation as ready
-- As part of the signing process (after nonce generation is ready), for every party:
-  - Include T (bit vector) into Verified ACS with predicated |T| ≥ n - f
-  - Select all the dealers that are contained in at least f + 1 elements of the output and use them for the key share computation. One can show, that there will always be n - f such dealers present int the ACS output 
 
 ###### Pros
 
