@@ -15,7 +15,7 @@ In general, there are two key alternatives:
 
 ### Frost
 
-For the first option there is a vetted 3-round (less with precomputation) scheme with security proofs: Frost [[KG20](https://eprint.iacr.org/2020/852)], [Coinbase blog post](https://blog.coinbase.com/frost-flexible-round-optimized-schnorr-threshold-signatures-b2e950164ee1)  (Rust:[dalek](https://github.com/isislovecruft/frost-dalek), Go:[Coinbase](https://github.com/coinbase/kryptology), [Taurus](https://github.com/taurusgroup/frost-ed25519)).
+For the first option there is a vetted 3-round (less with precomputation) scheme with security proofs: Frost [[KG20](https://eprint.iacr.org/2020/852)], [Coinbase blog post](https://web.archive.org/web/20211012233601/https://blog.coinbase.com/frost-flexible-round-optimized-schnorr-threshold-signatures-b2e950164ee1)  (Rust:[dalek](https://github.com/isislovecruft/frost-dalek), Go:[Coinbase](https://github.com/coinbase/kryptology), [Taurus](https://github.com/taurusgroup/frost-ed25519)).
 In order to remove the dependency on a second DKG, the subset of signers needs to be fixed before signing. This makes it very well suited for "human threshold schemes" where usually the actual signers come together anyways, but less for automated signing where signers could go offline. There exists a trivial algorithm to cope with this, but it requires 𝓞(f) rounds, where f is the number of malicious parties.
 
 #### Pros
@@ -27,8 +27,8 @@ In order to remove the dependency on a second DKG, the subset of signers needs t
 
 #### Cons
 - Conceptually rather different than threshold BLS
-- Rounds are cumbersome in asynchronous model and precomputations make it sate-full
-- Fixing the subset of singers of signing can be difficult
+- Rounds are cumbersome in asynchronous model and precomputations make it stateful
+- Fixing the subset of signers for signing can be difficult
 
 ### Distributed Schnorr Signatures (DSS)
 
@@ -38,7 +38,7 @@ Every signer creates a partial signature that can then be aggregated in one roun
 #### Pros
 - Conceptually identical to threshold BLS
 - Very simple (complexity lies in the DKG)
-- Any DKG can be used, which makes it very flexible for all different use-cases and scenarios (a-/synchronous, with/wo precomputation, robustness, low bandwith/low latency)
+- Any DKG can be used, which makes it very flexible for all different use-cases and scenarios (a-/synchronous, with/wo precomputation, robustness, low bandwidth/low latency)
 - Should be secure against concurrent session (TODO: verify/prove this)
 - The subset of signers does not need to be fixed; aggregated signature can be created as soon as at least t signatures have been collected
 
@@ -106,7 +106,7 @@ Examples for share generation and signing using [Kyber](https://github.com/dedis
   - Exclude invalid deals or missing deals from key share computation
   - Fail if |deals| ≤ f
   - Create partial signatures using the key share
-  - (Nonce generation can be decoupled and run in advanced for immediate one-round singing)
+  - (Nonce generation can be decoupled and run in advance for immediate one-round signing)
 - Aggregate t signatures
 
 ###### Pros
@@ -162,8 +162,8 @@ Examples for share generation and signing using [Kyber](https://github.com/dedis
       - sʲᵢ ← output
       - Tᵢ ← Tᵢ ∪ {j}
       - If |Tᵢ| = f+1: RBCᵢ(Tᵢ)
-    - Only participate in RPCⱼ when Tⱼ ⊆ Tᵢ
-    - On termination of RPCⱼ:
+    - Only participate in RBCⱼ when Tⱼ ⊆ Tᵢ
+    - On termination of RBCⱼ:
       - 𝒯ᵢ ← 𝒯ᵢ ∪ {j}
 - Signing process
   - For every party _i_:
@@ -184,7 +184,7 @@ Examples for share generation and signing using [Kyber](https://github.com/dedis
 ###### Cons
 
 - Security of the scheme depends on the used VSS:
-  - Feldman VSS is secure up to Berserck attackers
+  - Feldman VSS is secure up to Berserk attackers
   - PVSS provide full security
 - Nonce generation requires two additional RBC rounds
 
