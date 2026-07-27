@@ -2,8 +2,8 @@
 
 ## Repository
 
-- [demo](https://github.com/iotaledger/crypto-tss/tree/main/demo): Golang demos and PoCs
-- [talks](https://github.com/iotaledger/crypto-tss/tree/main/talks): Internal talks and presentations
+- [demo](./demo): Golang demos and PoCs
+- [talks](./talks): Internal talks and presentations
 
 ## Background
 
@@ -62,7 +62,7 @@ In the following we present implementation ideas and changes for secure threshol
 > **:fire: Warning**
 > This scheme is insecure and *must* not be used in practice: Signing two messages with the same nonce reveals the private key!
 
-Examples for share generation and signing using [Kyber](https://github.com/dedis/kyber) can be found under [demo](https://github.com/iotaledger/crypto-tss/tree/main/demo).
+Examples for share generation and signing using [Kyber](https://github.com/dedis/kyber) can be found under [demo](./demo).
 
 ###### Pros
 
