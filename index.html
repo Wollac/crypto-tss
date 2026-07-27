@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>crypto-tss &mdash; Threshold Ed25519</title>
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 3rem 1.25rem 6rem;
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+  }
+  h1 { margin: 0 0 .25em; }
+  .sub { color: #6a737d; margin-bottom: 2.5rem; }
+  h2 { margin-top: 2.5em; font-size: 1.15rem; }
+  ul { padding-left: 1.2rem; }
+  li { margin: .5em 0; }
+  a { color: #0969da; }
+  .note {
+    margin-top: 3rem;
+    padding: 1rem 1.15rem;
+    border-left: 3px solid rgba(128, 128, 128, .4);
+    background: rgba(128, 128, 128, .08);
+    font-size: .93rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { background: #0d1117; color: #c9d1d9; }
+    a { color: #58a6ff; }
+    .sub { color: #8b949e; }
+  }
+</style>
+</head>
+<body>
+<h1>crypto-tss</h1>
+<p class="sub">Ed25519-compatible threshold Schnorr signatures.</p>
+
+<h2>Talk</h2>
+<ul>
+  <li><a href="talks/async-dkg/slides-async-dkg.html">Living with Asynchrony</a> &mdash;
+      distributed systems fundamentals and practical asynchronous distributed key
+      generation. This deck is the normative specification of the ACSS construction.</li>
+</ul>
+
+<h2>Repository</h2>
+<ul>
+  <li><a href="https://github.com/Wollac/crypto-tss#readme">README</a> &mdash; the design
+      space: FROST versus distributed Schnorr signatures, and five implementation
+      stages up to an asynchronous nonce-DKG.</li>
+  <li><a href="https://github.com/Wollac/crypto-tss/tree/main/demo">demo</a> &mdash; Go
+      examples for share generation and threshold signing.</li>
+</ul>
+
+<h2>Related</h2>
+<ul>
+  <li><a href="https://github.com/Wollac/async.go">async.go</a> &mdash; the asynchronous
+      primitives the scheme is built on: Bracha's Reliable Broadcast and an hbACSS0
+      variant using Feldman's VSS.</li>
+</ul>
+
+<p class="note">
+  This repository was previously published at <code>iotaledger/crypto-tss</code>, which has
+  since been deleted. <a href="https://github.com/iotaledger/wasp">IOTA Smart Contracts</a>
+  still cites the original URL of the talk above as the specification of its ACSS
+  implementation; that URL now returns 404, and this is the archived copy.
+</p>
+</body>
+</html>
