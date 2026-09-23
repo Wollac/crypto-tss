@@ -1,5 +1,13 @@
 # Monorepo for Threshold Ed25519
 
+**What this is.** The design of a t-of-n threshold Ed25519 (Schnorr) signature scheme for [IOTA Smart Contracts](https://github.com/iotaledger/wasp), in which the per-signature nonce is produced by an asynchronous DKG. The design is the [Implementation Stages](#implementation-stages) section below; stage 4, *Asynchronous nonce-DKG*, is the final scheme. The talk [Living with Asynchrony](https://wollac.github.io/crypto-tss/talks/async-dkg/slides-async-dkg.html) under [talks](./talks) is the normative description of the ACSS construction.
+
+**What `demo/` is and is not.** Go examples for stage 1 only (precomputed nonce shares), kept as a stepping stone. Stage 1 is insecure by design, as the warning in that section says, and it is not the scheme this repository describes.
+
+**Where the code lives.** The reference implementation of the building blocks (Bracha reliable broadcast, hbACSS0-style ACSS with Feldman VSS, and its crypto layer) is [async.go](https://github.com/Wollac/async.go). The production implementation of the full scheme is in IOTA Smart Contracts, written by the ISC team from this design: [`packages/gpa/adkg/nonce`](https://github.com/iotaledger/wasp/tree/develop/packages/gpa/adkg/nonce) (the nonce-DKG, whose header quotes stage 4), [`packages/gpa/acss`](https://github.com/iotaledger/wasp/tree/develop/packages/gpa/acss) (which cites the talk and copies the async.go crypto package), and [`packages/chain/dss`](https://github.com/iotaledger/wasp/tree/develop/packages/chain/dss) (the signing).
+
+**Timeline.** Stage 4 was written in January 2022; the production nonce-DKG landed in April 2022; ROAST ([eprint 2022/550](https://eprint.iacr.org/2022/550)) was posted in May 2022.
+
 ## Repository
 
 - [demo](./demo): Golang demos and PoCs
